@@ -1,6 +1,6 @@
 # SKY130_Open_Source_VLSI_Flow
 
-This repository documents my hands-on work with the open-source **SkyWater SKY130** chip design flow, done as part of a VLSI internship. It follows the course slides *"Introduction to the SkyWater PDK"* (VLSI System Design) and covers installing the complete toolchain (xschem, ngspice, magic, netgen and the SKY130A PDK) on Ubuntu running inside WSL2 on a Windows 11 laptop.
+This repository documents my hands-on work with the open-source **SkyWater SKY130** chip design flow. It follows the course on VSDIAT and covers installing the complete toolchain (xschem, ngspice, magic, netgen and the SKY130A PDK) on Ubuntu running inside WSL2 on a Windows 11 laptop.
 
 The final goal, taken from the slides' **"Backend validation DIY"** lab, is to take one small circuit (a CMOS inverter) through the full manual design flow:
 
@@ -9,7 +9,7 @@ The final goal, taken from the slides' **"Backend validation DIY"** lab, is to t
 3. **magic**: draw the layout and run DRC (Design Rule Check)
 4. **netgen**: run LVS (Layout vs Schematic) to prove the layout matches the schematic
 
-**Why this project is done:** chip design tools are normally expensive and closed. SKY130 is one of the few processes with a free, public PDK, so the whole flow can be learned on an ordinary laptop. Running one tiny circuit end to end (schematic, simulation, layout, DRC, LVS) shows what each step is for and how the tools depend on each other, which is the foundation for larger designs later.
+Chip design tools are normally expensive and closed. SKY130 is one of the few processes with a free, public PDK, so the whole flow can be learned on an ordinary laptop. Running one tiny circuit end to end (schematic, simulation, layout, DRC, LVS) shows what each step is for and how the tools depend on each other, which is the foundation for larger designs later.
 
 > The documentation format follows <https://github.com/yathAg/Physical_Verification_SKY130A>, which was used only as a model for how to structure a lab write-up. All steps, commands, errors and fixes recorded here come from my own work on my own machine.
 
