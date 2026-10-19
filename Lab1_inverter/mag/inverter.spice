@@ -1,0 +1,16 @@
+* SPICE3 file created from inverter.ext - technology: sky130A
+.subckt inverter vdd in out vss
+
+X0 vss in out vss sky130_fd_pr__nfet_01v8 ad=0.4425 pd=3.59 as=0.225 ps=1.8 w=1.5 l=0.18
+X1 vss in out vss sky130_fd_pr__nfet_01v8 ad=0.225 pd=1.8 as=0.4425 ps=3.59 w=1.5 l=0.18
+X2 out in vss vss sky130_fd_pr__nfet_01v8 ad=0.225 pd=1.8 as=0.225 ps=1.8 w=1.5 l=0.18
+X3 vdd in out vdd sky130_fd_pr__pfet_01v8 ad=0.15 pd=1.3 as=0.15 ps=1.3 w=1 l=0.18
+X4 out in vdd vdd sky130_fd_pr__pfet_01v8 ad=0.295 pd=2.59 as=0.15 ps=1.3 w=1 l=0.18
+X5 out in vdd vdd sky130_fd_pr__pfet_01v8 ad=0.15 pd=1.3 as=0.295 ps=2.59 w=1 l=0.18
+C0 out in 0.34071f
+C1 out vdd 0.43111f
+C2 in vdd 0.79587f
+C3 out vss 1.36498f
+C4 in vss 2.14984f
+C5 vdd vss 1.98873f
+.ends
