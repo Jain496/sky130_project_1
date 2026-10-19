@@ -1,6 +1,6 @@
 # VLSI Internship: SkyWater SKY130 Open-Source Design Flow
 
-Hands-on documentation of the open-source SkyWater **SKY130** flow (xschem, ngspice, magic, netgen) on Ubuntu inside WSL2. It follows the VLSI System Design lecture videos on the SkyWater PDK and repeats, on my own laptop, the steps shown in them. The final goal is the last lab of the videos, **"Backend validation DIY"**: take one small circuit through the full flow.
+Hands-on documentation of the open-source SkyWater **SKY130** flow (xschem, ngspice, magic, netgen) on Ubuntu inside WSL2. It follows the VLSI System Design lecture videos on the SkyWater PDK and repeats, on my own laptop, the steps shown in them. The final goal is the design flow of cmos inverter
 
 > Structure inspired by <https://github.com/yathAg/Physical_Verification_SKY130A>. All commands, results and screenshots here are from my own work.
 >
