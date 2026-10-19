@@ -88,7 +88,7 @@ free -h
 lsb_release -a      # "No LSB modules are available" is harmless
 ```
 
-📷 `Resources/Stage1/system_info.png` (TODO)
+![system_info](Resources/Stage1/system_info.jpeg)
 
 ## 4. Stage 1: Environment setup
 
@@ -102,7 +102,7 @@ sudo apt update && sudo apt install -y x11-apps # 10 packages
 xeyes                                           # two eyes window appeared
 ```
 
-📷 `Resources/Stage1/xeyes.png` (TODO)
+![xeyes](Resources/Stage1/xeyes.jpeg)
 
 ### 4.2 System update ✅
 
@@ -132,7 +132,6 @@ wsl --shutdown
 
 After reopening Ubuntu, `free -h` showed 4.8 GiB RAM and 6.0 GiB swap.
 
-📷 `Resources/Stage1/free_h_after.png` (TODO)
 
 ## 5. Stage 2: Installing the tools
 
@@ -155,7 +154,6 @@ sudo apt install -y git build-essential python3
 
 About 425 MB of dependencies (Qt5, Tcl/Tk, Ruby) came with these. The first `xschem --version` created `~/.xschem`.
 
-📷 `Resources/Stage2/tool_versions.png` (TODO)
 
 ## 6. Stage 3: Building a newer magic
 
@@ -182,7 +180,6 @@ make: *** [Makefile:132: tech-sky130] Error 2
 
 **Diagnosis:** `magic --version` gave 8.3.105 (apt), while `open_pdks` was the latest main branch. Magic was too old, so I needed a newer one from source.
 
-📷 `Resources/Stage3/make_failure.png` (TODO)
 
 ### 6.2 Build dependencies
 
@@ -245,7 +242,6 @@ libs.ref  libs.tech
 
 `sky130A` is the variant used in all labs.
 
-📷 `Resources/Stage4/pdk_installed.png` (TODO)
 
 ## 8. Stage 5: Verification, project folder and xschem
 
@@ -269,7 +265,6 @@ tech loaded: sky130A
 
 No "Malformed line" messages, so the original problem is fixed. The `RLIMIT_NOFILE is above 1024` warning can be ignored.
 
-📷 `Resources/Stage5/magic_tech_loaded.png` (TODO)
 
 ### 8.2 Environment variables
 
@@ -310,7 +305,7 @@ The `xschemrc` file is handled differently, see 8.4. I checked each link with `l
 
 Small mistake on the way: my first `xschemrc` link used a wrong path (`/usr/share/pdk/sky130A/libs.tech/xschemrc`, missing both `local` and the `xschem` folder). `ln -s` does not check that the target exists, so it created a broken link without any error. I found it with `ls -la`, removed it with `rm xschemrc`, and recreated it.
 
-📷 `Resources/Stage5/inverter_folders.png` (TODO)
+![inverter_folders](Resources/Stage5/inverter_folders.jpeg)
 
 ### 8.4 xschem showed MISSING SYMBOL, and the fix ✅
 
@@ -354,8 +349,8 @@ xschem
 
 **Result.** The welcome page now shows real SkyWater symbols (varactors, MIM capacitors, PFET, NFET, resistors, diodes) instead of MISSING SYMBOL boxes.
 
-📷 `Resources/Stage5/xschem_missing_symbol.png` (TODO, the before picture)
-📷 `Resources/Stage5/xschem_symbols_ok.png` (TODO, the after picture)
+![xschem_missing_symbol](Resources/Stage5/xschem_missing_symbol.jpeg)
+![xschem_symbols_ok](Resources/Stage5/xschem_symbols_ok.jpeg)
 
 ### 8.5 magic with the PDK and the device generator (from video 2) ✅
 
@@ -368,7 +363,6 @@ magic
 
 The top bar shows `Technology: sky130A`, the menus **Devices 1** and **Devices 2** appear, and the layer palette on the right lists the SKY130 layers (dnwell, nwell, pwell, ntransistor, ndiffusion and so on). In video 1 the same window said `Technology: minimum`, because there was no PDK shortcut in that folder.
 
-📷 `Resources/Stage5/magic_sky130A.png` (TODO)
 
 **Graphics option.** The video starts magic with `magic -d XR`. I tried `magic`, `magic -d XR` and once `magic d OGL` (typed without the dash, so magic read `d` and `OGL` as file names, which did no harm). On my laptop the `-d XR` window showed a black, empty canvas, while plain `magic` showed the normal gray canvas and drew correctly, so I used plain `magic` for the rest of the lab.
 
@@ -383,14 +377,11 @@ what
 
 `what` printed `ndiff`. A green rectangle appeared, together with a dotted pattern, because a lone diffusion rectangle breaks the design rules. I removed it with `undo`.
 
-📷 `Resources/Stage5/magic_paint_test.png` (TODO)
 
 **Device generator.** From the **Devices 1** menu I chose **nmos (MOSFET)**. A parameter window opened (width, length, fingers, M, device type, guard ring options). I set the values as shown in the video, clicked **Create and Close**, and a transistor with fingers and a guard ring was drawn. I then drew it with and without the guard ring, and changed the device type to the 5 V nfet `sky130_fd_pr__nfet_g5v0d10v5`.
 
 <!-- TODO: write the width, length and fingers values you really used -->
 
-📷 `Resources/Stage5/magic_params.png` (TODO)
-📷 `Resources/Stage5/magic_nfet.png` (TODO)
 
 **What is selected.** With the transistor selected, `what` printed:
 
@@ -401,7 +392,6 @@ Selected subcell(s):
 
 In the video the output lists mask layers instead. The difference is that I had selected the whole generated device (an instance of a cell). After typing `edit`, then `select area` and `what`, magic listed the layers inside the device: `mvnmos`, `mvndiff`, `mvndiffc`, `poly`, `polycont`, `locali`, `viali` and `metal1`, plus the labels D0, D2, S1, G0, G1 and G2.
 
-📷 `Resources/Stage5/magic_what.png` (TODO)
 
 This 5 V transistor was only for following the video. The inverter uses the 1.8 V devices.
 
@@ -427,7 +417,6 @@ Results:
 
 xschem and ngspice were started in later steps (sections 8.4 and 9.4).
 
-📷 `Resources/Stage5/tool_start_tests.png` (TODO)
 
 ## 9. Stage 6: Inverter lab
 
@@ -464,7 +453,6 @@ cat xschemrc
 
 The file now has two lines, and the library list shows four entries, including `/home/jain/inverter/xschem`.
 
-📷 `Resources/Stage6/insert_symbol_libs.png` (TODO)
 
 ### 9.2 Schematic and symbol ✅
 
@@ -477,7 +465,7 @@ I opened a new tab with **File, Create new window/tab**, so the PDK welcome page
 
 I created the symbol `inverter.sym` from the schematic.
 
-📷 `Resources/Stage6/inverter_sch.png` (TODO)
+![inverter_sch](Resources/Stage6/inverter_sch.jpeg)
 
 ### 9.3 Testbench ✅
 
@@ -488,7 +476,7 @@ The testbench `inverter_tb.sch` places the inverter symbol and adds:
 * A `.lib` line that loads the SkyWater models: `.lib /usr/local/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt`
 * A control block: `.control`, `tran 1n 1u`, `plot V(in) V(out)`, `.endc`
 
-📷 `Resources/Stage6/inverter_tb.png` (TODO)
+![inverter_tb](Resources/Stage6/inverter_tb.jpeg)
 
 ### 9.4 Running the simulation ✅
 
@@ -513,7 +501,7 @@ In the plot, `v(in)` is a ramp from 0 V to 1.8 V. `v(out)` starts at 1.8 V and f
 
 The input ramp is slow, so this test shows where the inverter switches, not how fast it is. I did not measure a propagation delay.
 
-📷 `Resources/Stage6/waveform.png` (TODO)
+![waveform](Resources/Stage6/waveform.jpeg)
 
 ### 9.6 LVS netlist of the inverter ✅
 
@@ -548,8 +536,6 @@ XM2 out in vdd vdd sky130_fd_pr__pfet_01v8 L=0.18 W=3 nf=3 m=1
 
 I checked that it has the four pins `in`, `out`, `vdd`, `vss`, an NMOS and a PMOS with the sizes of my schematic, no `expr` or `@` text, and a closing `.ends`. This is the file magic imports for the layout, and the one netgen compares against later.
 
-📷 `Resources/Stage6/lvs_netlist_option.png` (TODO)
-📷 `Resources/Stage6/inverter_spice.png` (TODO)
 
 ### 9.7 Layout in magic ✅
 
@@ -571,7 +557,7 @@ The pins are `in`, `out`, `vdd` and `vss`. Magic saved the two generated transis
 
 <!-- TODO: write how you drew the layout (imported inverter.spice or drew the devices yourself) -->
 
-📷 `Resources/Stage6/inverter_layout.png` (TODO)
+![inverter_layout](Resources/Stage6/inverter_layout.jpeg)
 
 ### 9.8 Extraction ✅
 
@@ -600,7 +586,6 @@ quit
 | `ext2spice lvs` | selects the LVS style of netlist, **without** parasitic capacitors |
 | `ext2spice` | converts the `.ext` files into `inverter.spice` |
 
-📷 `Resources/Stage6/extract_commands.png` (TODO)
 
 ### 9.9 LVS with netgen-lvs ✅
 
@@ -633,8 +618,7 @@ Result: Circuits match uniquely.
 
 The layout has 3 NMOS fingers and 3 PMOS fingers. Netgen merges parallel devices (the `Combined 3 parallel devices` lines), so each side ends with 1 NMOS, 1 PMOS and 4 nets.
 
-📷 `Resources/Stage6/lvs_mismatch.png` (TODO)
-📷 `Resources/Stage6/lvs_match.png` (TODO)
+![lvs_match](Resources/Stage6/lvs_match.jpeg)
 
 ### 9.10 Post-layout simulation ✅
 
@@ -703,8 +687,7 @@ ngspice inverter_tb.spice
 
 Re-extracting in magic overwrites `inverter.spice`, so the `.subckt` wrapper has to be added again after every extraction. Also, never run LVS on this parasitic version.
 
-📷 `Resources/Stage6/post_layout_commands.png` (TODO)
-📷 `Resources/Stage6/waveform_post_layout.png` (TODO)
+![post_layout_commands](Resources/Stage6/post_layout_commands.jpeg)
 
 With this, the whole flow of the last lab is finished: schematic, simulation, layout, extraction, LVS and post-layout simulation.
 
