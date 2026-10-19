@@ -332,7 +332,7 @@ xschem
 
 *After the fix: the same welcome page shows real SkyWater symbols.*
 
-### 8.5 magic with the PDK and the device generator (from video 2)
+### 8.5 magic with the PDK and the device generator 
 
 **Start magic from the `mag` folder** so that it reads the `.magicrc` shortcut:
 
