@@ -6,12 +6,10 @@ Hands-on documentation of the open-source SkyWater **SKY130** flow (xschem, ngsp
 >
 > **Last updated:** 20 October 2026
 
-**Status key:** ✅ done and verified | ⏳ in progress | ⬜ not started
-
 ## Index
 
 - [1. Background](#1-background)
-- [2. Current status](#2-current-status)
+- [2. Result](#2-result)
 - [3. My system](#3-my-system)
 - [4. Stage 1: Environment setup](#4-stage-1-environment-setup)
 - [5. Stage 2: Installing the tools](#5-stage-2-installing-the-tools)
@@ -43,32 +41,9 @@ Hands-on documentation of the open-source SkyWater **SKY130** flow (xschem, ngsp
 
 **Slide topics:** SKY130 libraries (`sky130_fd_sc_hd` standard cells, `sky130_fd_pr` primitive devices, `sky130_fd_io` I/O cells, SRAM macros); layers and devices (metal1 to metal5, MiM caps, RDL, bipolar devices, resistors); tools supported by `open_pdks`.
 
-## 2. Current status
+## 2. Result
 
-| Stage | Status |
-|---|---|
-| WSL2 + Ubuntu 26.04 running | ✅ |
-| GUI works (`DISPLAY=:0`, `xeyes`) | ✅ |
-| System updated (69 packages) | ✅ |
-| WSL memory raised (4.8 GiB RAM, 6 GiB swap) | ✅ |
-| magic, ngspice, xschem, netgen-lvs, klayout installed | ✅ |
-| Newer magic (8.3.685) built from source | ✅ |
-| SKY130 PDK installed with open_pdks | ✅ |
-| magic loads `sky130A` without errors | ✅ |
-| `PDK_ROOT` / `PDK` environment variables set | ✅ |
-| Project folder `inverter` with PDK shortcuts (video 2) | ✅ |
-| xschem opens with the PDK and shows the SkyWater symbols | ✅ |
-| Tool start tests from video 1 (magic, netgen, `-noconsole`, `-dnull`, `test.tcl`) | ✅ |
-| magic opened from `mag/` with `Technology: sky130A` | ✅ |
-| Device generator in magic: nfet drawn from the Devices 1 menu (video 2) | ✅ |
-| Inverter schematic, symbol and testbench in xschem | ✅ |
-| ngspice transient simulation of the inverter, waveform obtained | ✅ |
-| LVS netlist of the inverter (`inverter.spice`) created and checked | ✅ |
-| Inverter layout in magic (`inverter.mag`) | ✅ |
-| Extraction of the layout netlist | ✅ |
-| LVS with `netgen-lvs`: circuits match uniquely | ✅ |
-| Post-layout simulation with ngspice | ✅ |
-| All screenshots added | ⏳ |
+A CMOS inverter was taken through the full flow on SKY130: schematic and simulation (xschem, ngspice), layout and extraction (magic), LVS (netgen, circuits match uniquely) and post-layout simulation (ngspice).
 
 ## 3. My system
 
@@ -92,7 +67,7 @@ lsb_release -a      # "No LSB modules are available" is harmless
 
 ## 4. Stage 1: Environment setup
 
-### 4.1 GUI check ✅
+### 4.1 GUI check
 
 xschem, magic and netgen are graphical, so the display must work.
 
@@ -104,7 +79,7 @@ xeyes                                           # two eyes window appeared
 
 ![xeyes](Resources/Stage1/xeyes.jpeg)
 
-### 4.2 System update ✅
+### 4.2 System update
 
 ```bash
 sudo apt upgrade -y
@@ -112,7 +87,7 @@ sudo apt upgrade -y
 
 69 packages upgraded (including `openssl`, `sudo`, `libx11`, `mesa`). Two packages were held back by Ubuntu's phased updates, which is normal.
 
-### 4.3 More memory for WSL ✅
+### 4.3 More memory for WSL
 
 The default 3.7 GB can run out during the PDK build, so I raised it. In Windows PowerShell:
 
@@ -275,7 +250,7 @@ source ~/.bashrc
 echo "PDK_ROOT=$PDK_ROOT PDK=$PDK"
 ```
 
-### 8.3 Project folder and PDK shortcuts (from video 2) ✅
+### 8.3 Project folder and PDK shortcuts (from video 2)
 
 In the video the lecturer creates a project folder with one subfolder per tool, then makes shortcuts (symbolic links) to the PDK setup files. Each tool reads its setup file from the folder where it is started. His PDK is under `/usr/share/pdk`; mine is under `/usr/local/share/pdk`, so I used my path.
 
@@ -307,7 +282,7 @@ Small mistake on the way: my first `xschemrc` link used a wrong path (`/usr/shar
 
 ![inverter_folders](Resources/Stage5/inverter_folders.jpeg)
 
-### 8.4 xschem showed MISSING SYMBOL, and the fix ✅
+### 8.4 xschem showed MISSING SYMBOL, and the fix
 
 **Symptom.** Starting `xschem` from `~/inverter/xschem` opened the welcome page `top.sch`, but every part was a yellow **MISSING SYMBOL** box. The terminal printed many lines like:
 
@@ -349,10 +324,15 @@ xschem
 
 **Result.** The welcome page now shows real SkyWater symbols (varactors, MIM capacitors, PFET, NFET, resistors, diodes) instead of MISSING SYMBOL boxes.
 
-![xschem_missing_symbol](Resources/Stage5/xschem_missing_symbol.jpeg)
-![xschem_symbols_ok](Resources/Stage5/xschem_symbols_ok.jpeg)
+![Before the fix: MISSING SYMBOL boxes](Resources/Stage5/xschem_missing_symbol.jpeg)
 
-### 8.5 magic with the PDK and the device generator (from video 2) ✅
+*Before the fix: the PDK welcome page shows MISSING SYMBOL boxes.*
+
+![After the fix: real SkyWater symbols](Resources/Stage5/xschem_symbols_ok.png)
+
+*After the fix: the same welcome page shows real SkyWater symbols.*
+
+### 8.5 magic with the PDK and the device generator (from video 2)
 
 **Start magic from the `mag` folder** so that it reads the `.magicrc` shortcut:
 
@@ -395,7 +375,7 @@ In the video the output lists mask layers instead. The difference is that I had 
 
 This 5 V transistor was only for following the video. The inverter uses the 1.8 V devices.
 
-### 8.6 Tool start tests (from video 1) ✅
+### 8.6 Tool start tests (from video 1)
 
 In video 1 the lecturer starts each tool in three ways: normally, with `-noconsole`, and with `-dnull`. I repeated this from my home folder, where there is no PDK shortcut, so magic uses its built in `minimum` technology, as in the video.
 
@@ -429,19 +409,19 @@ inverter/
 └── netgen/   (setup.tcl, LVS output)
 ```
 
-| Step | Tool | Status |
-|---|---|---|
-| 0. Open each tool with the PDK | xschem, magic | ✅ |
-| 0. Start netgen (the command is `netgen-lvs` on my system) | netgen | ✅ |
-| 1. Schematic, symbol, testbench | xschem | ✅ |
-| 2. Transient simulation and waveform | ngspice | ✅ |
-| 2b. LVS netlist of the inverter (`inverter.spice`) | xschem | ✅ |
-| 3. Layout | magic | ✅ |
-| 4. Extract layout netlist | magic | ✅ |
-| 5. LVS | netgen-lvs | ✅ |
-| 6. Post-layout simulation | ngspice | ✅ |
+| Step | Tool |
+|---|---|
+| 0. Open each tool with the PDK | xschem, magic |
+| 0. Start netgen (the command is `netgen-lvs` on my system) | netgen |
+| 1. Schematic, symbol, testbench | xschem |
+| 2. Transient simulation and waveform | ngspice |
+| 2b. LVS netlist of the inverter (`inverter.spice`) | xschem |
+| 3. Layout | magic |
+| 4. Extract layout netlist | magic |
+| 5. LVS | netgen-lvs |
+| 6. Post-layout simulation | ngspice |
 
-### 9.1 Library list check ✅
+### 9.1 Library list check
 
 Opening the Insert symbol window (Ctrl+I) showed three library lines but not my project folder. The cause was my one line `xschemrc` (see 8.4): it only loads the PDK file. I appended one line to it so that my project folder is searched too:
 
@@ -454,7 +434,7 @@ cat xschemrc
 The file now has two lines, and the library list shows four entries, including `/home/jain/inverter/xschem`.
 
 
-### 9.2 Schematic and symbol ✅
+### 9.2 Schematic and symbol
 
 I opened a new tab with **File, Create new window/tab**, so the PDK welcome page `top.sch` stayed unchanged. The inverter schematic `inverter.sch` contains:
 
@@ -467,7 +447,7 @@ I created the symbol `inverter.sym` from the schematic.
 
 ![inverter_sch](Resources/Stage6/inverter_sch.jpeg)
 
-### 9.3 Testbench ✅
+### 9.3 Testbench
 
 The testbench `inverter_tb.sch` places the inverter symbol and adds:
 
@@ -478,7 +458,7 @@ The testbench `inverter_tb.sch` places the inverter symbol and adds:
 
 ![inverter_tb](Resources/Stage6/inverter_tb.jpeg)
 
-### 9.4 Running the simulation ✅
+### 9.4 Running the simulation
 
 I clicked **Netlist** and then **Simulate**. xschem writes the netlist to `~/.xschem/simulations/inverter_tb.spice` and runs ngspice there. This stage took several fixes, listed in section 10. To see errors directly, I also ran ngspice by hand:
 
@@ -495,7 +475,7 @@ grep -n "expr\|@" ~/.xschem/simulations/inverter_tb.spice
 
 It printed nothing, and ngspice ran without errors.
 
-### 9.5 Result ✅
+### 9.5 Result
 
 In the plot, `v(in)` is a ramp from 0 V to 1.8 V. `v(out)` starts at 1.8 V and falls sharply to 0 V at about 0.4 microseconds, when the input is at roughly 0.8 V (read from the plot, so approximate). The output is the inverse of the input, so the inverter works.
 
@@ -503,7 +483,7 @@ The input ramp is slow, so this test shows where the inverter switches, not how 
 
 ![waveform](Resources/Stage6/waveform.jpeg)
 
-### 9.6 LVS netlist of the inverter ✅
+### 9.6 LVS netlist of the inverter
 
 Following the video, after the simulation I made a second netlist, this time of the inverter alone, for the layout and LVS stages:
 
@@ -537,7 +517,7 @@ XM2 out in vdd vdd sky130_fd_pr__pfet_01v8 L=0.18 W=3 nf=3 m=1
 I checked that it has the four pins `in`, `out`, `vdd`, `vss`, an NMOS and a PMOS with the sizes of my schematic, no `expr` or `@` text, and a closing `.ends`. This is the file magic imports for the layout, and the one netgen compares against later.
 
 
-### 9.7 Layout in magic ✅
+### 9.7 Layout in magic
 
 The layout cell is `inverter.mag` in the `mag/` folder. Magic must be started from `mag/` so that it reads the `.magicrc` shortcut and loads `sky130A`. I used plain `magic`, because `magic -d XR` gave a black canvas on my laptop (see 8.5).
 
@@ -559,7 +539,7 @@ The pins are `in`, `out`, `vdd` and `vss`. Magic saved the two generated transis
 
 ![inverter_layout](Resources/Stage6/inverter_layout.jpeg)
 
-### 9.8 Extraction ✅
+### 9.8 Extraction
 
 Extraction turns the layout back into a circuit. Before extracting, I removed the old `.ext` files, as in the video:
 
@@ -587,7 +567,7 @@ quit
 | `ext2spice` | converts the `.ext` files into `inverter.spice` |
 
 
-### 9.9 LVS with netgen-lvs ✅
+### 9.9 LVS with netgen-lvs
 
 LVS compares the extracted layout netlist with the schematic netlist from section 9.6. On my system the LVS tool is `netgen-lvs` (the name `netgen` starts a different program, see section 10).
 
@@ -620,7 +600,7 @@ The layout has 3 NMOS fingers and 3 PMOS fingers. Netgen merges parallel devices
 
 ![lvs_match](Resources/Stage6/lvs_match.jpeg)
 
-### 9.10 Post-layout simulation ✅
+### 9.10 Post-layout simulation
 
 Last part of the video: simulate the extracted layout, with parasitic capacitors included, and compare it with the schematic simulation. LVS had to pass first, because this step overwrites `mag/inverter.spice` with the parasitic version.
 
