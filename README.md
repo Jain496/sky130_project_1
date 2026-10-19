@@ -250,7 +250,7 @@ source ~/.bashrc
 echo "PDK_ROOT=$PDK_ROOT PDK=$PDK"
 ```
 
-### 8.3 Project folder and PDK shortcuts (from video 2)
+### 8.3 Project folder and PDK shortcuts 
 
 In the video the lecturer creates a project folder with one subfolder per tool, then makes shortcuts (symbolic links) to the PDK setup files. Each tool reads its setup file from the folder where it is started. His PDK is under `/usr/share/pdk`; mine is under `/usr/local/share/pdk`, so I used my path.
 
@@ -375,9 +375,9 @@ In the video the output lists mask layers instead. The difference is that I had 
 
 This 5 V transistor was only for following the video. The inverter uses the 1.8 V devices.
 
-### 8.6 Tool start tests (from video 1)
+### 8.6 Tool start tests 
 
-In video 1 the lecturer starts each tool in three ways: normally, with `-noconsole`, and with `-dnull`. I repeated this from my home folder, where there is no PDK shortcut, so magic uses its built in `minimum` technology, as in the video.
+In video the lecturer starts each tool in three ways: normally, with `-noconsole`, and with `-dnull`. I repeated this from my home folder, where there is no PDK shortcut, so magic uses its built in `minimum` technology, as in the video.
 
 ```bash
 cd ~
