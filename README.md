@@ -1,6 +1,6 @@
 # VLSI Internship: SkyWater SKY130 Open-Source Design Flow
 
-Hands-on documentation of the open-source SkyWater **SKY130** flow (xschem, ngspice, magic, netgen) on Ubuntu inside WSL2. It follows the VLSI System Design lecture videos on the SkyWater PDK and repeats, on my own laptop, the steps shown in them. The final goal is the design flow of cmos inverter
+Hands-on documentation of the open-source SkyWater **SKY130** flow (xschem, ngspice, magic, netgen) on Ubuntu inside WSL2. It follows the VLSI System Design lecture videos on the SkyWater PDK and repeats, on my own laptop, the steps shown in them. The final goal is the design flow of CMOS Inverter
 
 > Structure inspired by <https://github.com/yathAg/Physical_Verification_SKY130A>. All commands, results and screenshots here are from my own work.
 >
@@ -360,7 +360,7 @@ what
 
 **Device generator.** From the **Devices 1** menu I chose **nmos (MOSFET)**. A parameter window opened (width, length, fingers, M, device type, guard ring options). I set the values as shown in the video, clicked **Create and Close**, and a transistor with fingers and a guard ring was drawn. I then drew it with and without the guard ring, and changed the device type to the 5 V nfet `sky130_fd_pr__nfet_g5v0d10v5`.
 
-<!-- TODO: write the width, length and fingers values you really used -->
+
 
 
 **What is selected.** With the transistor selected, `what` printed:
@@ -492,7 +492,6 @@ Following the video, after the simulation I made a second netlist, this time of 
 3. In the **Options** menu I ticked the LVS netlist entry, which writes the top level circuit as a `.subckt`.
 4. Clicked **Netlist** in the `inverter.sch` tab.
 
-<!-- TODO: write the exact name of the Options menu entry you ticked -->
 
 xschem wrote the file to `~/.xschem/simulations/inverter.spice`, not to my project folder as in the video. I found it and copied it next to my schematic, so that the file dialog in magic finds it in the same place as in the video:
 
@@ -535,7 +534,7 @@ The layout uses the same 1.8 V devices as the schematic, with the same total siz
 
 The pins are `in`, `out`, `vdd` and `vss`. Magic saved the two generated transistors as their own cells (`sky130_fd_pr__nfet_01v8_KBZXWL.mag` and `sky130_fd_pr__pfet_01v8_XQ58Y7.mag`) next to `inverter.mag`.
 
-<!-- TODO: write how you drew the layout (imported inverter.spice or drew the devices yourself) -->
+I started magic from ~/inverter/mag with magic, which loaded the sky130A technology. I used File, Import SPICE and chose inverter.spice. Magic printed “Creating layout from inverter.spice” and generated the NMOS and PMOS devices and the pins in, out, vdd, vss from my netlist. I then arranged the devices and connected them with metal 1, and checked the DRC counter until it reached 0.
 
 ![inverter_layout](Resources/Stage6/inverter_layout.jpeg)
 
